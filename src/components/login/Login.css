@@ -1,0 +1,12 @@
+.login-container {
+  height: 100vh;
+}
+
+.logo {
+  width: 250px;
+  margin-bottom: 100px;
+}
+
+a {
+  text-decoration: none;
+}
