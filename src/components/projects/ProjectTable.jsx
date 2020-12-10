@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { fetchProjects } from '../../api/api';
 import { deleteProject } from '../../api/api';
+import { updateProject } from '../../api/api';
 import { Container, Grid, Dialog } from '@material-ui/core';
 import ProjectForm from './projectForm/ProjectForm';
 
@@ -38,7 +39,7 @@ export default function ProjectTable() {
   const [open, setOpen] = useState(false);
   const [projectToModify, setProjectToModify] = useState();
 
-  function handleModal() {
+  function handleDialog() {
     setOpen(prev => !prev);
   }
 
@@ -55,9 +56,10 @@ export default function ProjectTable() {
   }
 
   function modifyProject(project) {
-    // updateProject(project).then(() => getProjects());
+    console.log('dans modify project');
+    updateProject(project).then(getProjects);
     setProjectToModify(project);
-    handleModal();
+    handleDialog();
   }
 
   if (sortedField !== null) {
@@ -83,7 +85,7 @@ export default function ProjectTable() {
                   <TableSortLabel
                     className="cell"
                     align="center"
-                    active={false}
+                    active={sortedField === field.id}
                     direction="asc"
                     onClick={() => setSortedField(field.id)}
                   >
@@ -125,8 +127,12 @@ export default function ProjectTable() {
           </TableBody>
         </Table>
       </TableContainer>
-      <Dialog open={open} onClose={handleModal} fullWidth>
-        <ProjectForm projectToModify={projectToModify} onClose={handleModal} />
+      <Dialog open={open} handleDialog={handleDialog} fullWidth>
+        <ProjectForm
+          projectToModify={projectToModify}
+          modifyProject={modifyProject}
+          handleDialog={handleDialog}
+        />
       </Dialog>
     </div>
   );

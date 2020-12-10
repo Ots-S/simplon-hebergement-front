@@ -9,9 +9,12 @@ import {
 import './ProjectForm.css';
 import { useHistory } from 'react-router-dom';
 import { saveProject } from '../../../api/api';
-import { updateProject } from '../../../api/api';
 
-export default function ProjectForm({ projectToModify, onClose }) {
+export default function ProjectForm({
+  projectToModify,
+  handleDialog,
+  modifyProject,
+}) {
   const [id, setId] = useState();
   const [client, setClient] = useState('');
   const [project, setProject] = useState('');
@@ -48,8 +51,7 @@ export default function ProjectForm({ projectToModify, onClose }) {
 
   function save() {
     const project = createProject();
-    projectToModify ? updateProject(project) : saveProject(project);
-    onClose && onClose();
+    projectToModify ? modifyProject(project) : saveProject(project);
     history.push('/home');
   }
 

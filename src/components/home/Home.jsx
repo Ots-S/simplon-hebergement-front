@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Grid, Dialog } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Box, Button, Container, Grid } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import './Home.css';
-import { fetchProjects } from '../../api/api';
 
-import ProjectForm from '../../components/projects/projectForm/ProjectForm';
 import ProjectTable from '../../components/projects/ProjectTable';
 
 export default function Home() {
@@ -24,7 +23,7 @@ export default function Home() {
         alignItems="center"
         className="home-container"
       >
-        {/* <Box mb={5}>
+        <Box mb={5}>
           <Grid item>
             <Link to="/projectform">
               <Button variant="contained" color="primary">
@@ -32,7 +31,7 @@ export default function Home() {
               </Button>
             </Link>
           </Grid>
-        </Box> */}
+        </Box>
         <ProjectTable />
       </Grid>
     </Container>
