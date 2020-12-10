@@ -1,3 +1,9 @@
+import { useState, useEffect } from 'react';
+import { fetchProjects } from '../../api/api';
+import { deleteProject } from '../../api/api';
+import { Container, Grid, Dialog } from '@material-ui/core';
+import ProjectForm from './projectForm/ProjectForm';
+
 import {
   Button,
   Table,
@@ -7,74 +13,121 @@ import {
   TableHead,
   TableRow,
   Paper,
+  TableSortLabel,
 } from '@material-ui/core';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import './ProjectTable.css';
 
-export default function ProjectTable({
-  projects,
-  removeProject,
-  modifyProject,
-}) {
+export default function ProjectTable() {
+  const fields = [
+    { id: 'id', label: 'ID' },
+    { id: 'client', label: 'Client' },
+    { id: 'project', label: 'Projet' },
+    { id: 'domain', label: 'Domaine' },
+    { id: 'rate', label: 'Tarif' },
+    { id: 'startingDate', label: 'Date début' },
+    { id: 'endingDate', label: 'Date fin' },
+  ];
+  const buttons = [
+    { id: 'edit', label: 'Editer' },
+    { id: 'delete', label: 'Supprimer' },
+  ];
+  const [sortedArray, setSortedArray] = useState([]);
+  const [sortedField, setSortedField] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [projectToModify, setProjectToModify] = useState();
+
+  function handleModal() {
+    setOpen(prev => !prev);
+  }
+
+  useEffect(() => {
+    getProjects();
+  }, []);
+
+  function getProjects() {
+    fetchProjects().then(items => setSortedArray(items));
+  }
+
+  function removeProject(id) {
+    deleteProject(id).then(() => getProjects());
+  }
+
+  function modifyProject(project) {
+    // updateProject(project).then(() => getProjects());
+    setProjectToModify(project);
+    handleModal();
+  }
+
+  if (sortedField !== null) {
+    sortedArray.sort((a, b) => {
+      if (a[sortedField] < b[sortedField]) {
+        return -1;
+      }
+      if (a[sortedField] > b[sortedField]) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label="simple table">
-        <TableHead className="tablehead">
-          <TableRow>
-            <TableCell className="cell">ID</TableCell>
-            <TableCell align="center" className="cell">
-              Client
-            </TableCell>
-            <TableCell align="center" className="cell">
-              Projet
-            </TableCell>
-            <TableCell align="center" className="cell">
-              Domaine
-            </TableCell>
-            <TableCell align="center" className="cell">
-              Tarif
-            </TableCell>
-            <TableCell align="center" className="cell">
-              Date début
-            </TableCell>
-            <TableCell align="center" className="cell">
-              Date fin
-            </TableCell>
-            <TableCell align="center" className="cell">
-              Supprimer
-            </TableCell>
-            <TableCell align="center" className="cell">
-              Éditer
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {projects.map(project => (
-            <TableRow key={project.id}>
-              <TableCell component="th" scope="row">
-                {project.id}
-              </TableCell>
-              <TableCell align="center">{project.client}</TableCell>
-              <TableCell align="center">{project.project}</TableCell>
-              <TableCell align="center">{project.domain}</TableCell>
-              <TableCell align="center">{project.rate}</TableCell>
-              <TableCell align="center">{project.startingDate}</TableCell>
-              <TableCell align="center">{project.endingDate}</TableCell>
-              <TableCell align="center">
-                <Button onClick={() => removeProject(project.id)}>
-                  <DeleteOutlineOutlinedIcon />
-                </Button>
-              </TableCell>
-              <TableCell align="center">
-                <Button onClick={() => modifyProject(project)}>
-                  <EditOutlinedIcon />
-                </Button>
-              </TableCell>
+    <div>
+      <TableContainer component={Paper}>
+        <Table aria-label="simple table">
+          <TableHead className="tablehead">
+            <TableRow>
+              {fields.map(field => (
+                <TableCell key={field.id} align="center">
+                  <TableSortLabel
+                    className="cell"
+                    align="center"
+                    active={false}
+                    direction="asc"
+                    onClick={() => setSortedField(field.id)}
+                  >
+                    {field.label.toUpperCase()}
+                  </TableSortLabel>
+                </TableCell>
+              ))}
+              {buttons.map(button => (
+                <TableCell key={button.id} align="center" className="cell">
+                  {button.label.toUpperCase()}
+                </TableCell>
+              ))}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {sortedArray.map(project => (
+              <TableRow key={project.id}>
+                <TableCell component="th" scope="row">
+                  {project.id}
+                </TableCell>
+                <TableCell align="center">{project.client}</TableCell>
+                <TableCell align="center">{project.project}</TableCell>
+                <TableCell align="center">{project.domain}</TableCell>
+                <TableCell align="center">{project.rate}</TableCell>
+                <TableCell align="center">{project.startingDate}</TableCell>
+                <TableCell align="center">{project.endingDate}</TableCell>
+                <TableCell align="center">
+                  <Button onClick={() => modifyProject(project)}>
+                    <EditOutlinedIcon />
+                  </Button>
+                </TableCell>
+                <TableCell align="center">
+                  <Button onClick={() => removeProject(project.id)}>
+                    <DeleteOutlineOutlinedIcon />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Dialog open={open} onClose={handleModal} fullWidth>
+        <ProjectForm projectToModify={projectToModify} onClose={handleModal} />
+      </Dialog>
+    </div>
   );
 }

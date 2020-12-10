@@ -11,7 +11,7 @@ import { useHistory } from 'react-router-dom';
 import { saveProject } from '../../../api/api';
 import { updateProject } from '../../../api/api';
 
-export default function ProjectForm({ projectToModify }) {
+export default function ProjectForm({ projectToModify, onClose }) {
   const [id, setId] = useState();
   const [client, setClient] = useState('');
   const [project, setProject] = useState('');
@@ -44,12 +44,12 @@ export default function ProjectForm({ projectToModify }) {
       endingDate: endingDate,
     };
     return projectObj;
-    console.log('project', projectObj);
   }
 
   function save() {
     const project = createProject();
     projectToModify ? updateProject(project) : saveProject(project);
+    onClose && onClose();
     history.push('/home');
   }
 
@@ -116,6 +116,7 @@ export default function ProjectForm({ projectToModify }) {
                 label="Date début d'hébergement"
                 fullWidth
                 margin="normal"
+                variant="filled"
                 required
                 value={startingDate}
                 onChange={e => setStartingDate(e.target.value)}
@@ -127,6 +128,7 @@ export default function ProjectForm({ projectToModify }) {
                 label="Date fin d'hébergement"
                 fullWidth
                 margin="normal"
+                variant="filled"
                 required
                 value={endingDate}
                 onChange={e => setEndingDate(e.target.value)}
