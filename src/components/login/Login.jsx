@@ -29,6 +29,7 @@ export default function Login() {
                 label="Identifiant"
                 type="text"
                 required
+                variant="outlined"
               />
             </Grid>
             <Grid item>
@@ -37,6 +38,7 @@ export default function Login() {
                 label="Mot de passe"
                 type="password"
                 required
+                variant="outlined"
               />
             </Grid>
             <Grid item>
