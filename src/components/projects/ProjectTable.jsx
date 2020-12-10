@@ -35,7 +35,7 @@ export default function ProjectTable() {
     { id: 'delete', label: 'Supprimer' },
   ];
   const [sortedArray, setSortedArray] = useState([]);
-  const [sortedField, setSortedField] = useState(null);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const [open, setOpen] = useState(false);
   const [projectToModify, setProjectToModify] = useState();
 
@@ -56,84 +56,93 @@ export default function ProjectTable() {
   }
 
   function modifyProject(project) {
-    console.log('dans modify project');
     updateProject(project).then(getProjects);
     setProjectToModify(project);
     handleDialog();
   }
 
-  if (sortedField !== null) {
+  function sortParam(key) {
+    console.log('sortConfig', sortConfig);
+    let direction = 'asc';
+    setSortConfig({ key, direction });
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  }
+
+  if (sortConfig !== null) {
     sortedArray.sort((a, b) => {
-      if (a[sortedField] < b[sortedField]) {
-        return -1;
+      if (a[sortConfig.key] < b[sortConfig.key]) {
+        return sortConfig.direction === 'asc' ? -1 : 1;
       }
-      if (a[sortedField] > b[sortedField]) {
-        return 1;
+      if (a[sortConfig.key] > b[sortConfig.key]) {
+        return sortConfig.direction === 'asc' ? 1 : -1;
       }
       return 0;
     });
-  }
 
-  return (
-    <div>
-      <TableContainer component={Paper}>
-        <Table aria-label="simple table">
-          <TableHead className="tablehead">
-            <TableRow>
-              {fields.map(field => (
-                <TableCell key={field.id} align="center">
-                  <TableSortLabel
-                    className="cell"
-                    align="center"
-                    active={sortedField === field.id}
-                    direction="asc"
-                    onClick={() => setSortedField(field.id)}
-                  >
-                    {field.label.toUpperCase()}
-                  </TableSortLabel>
-                </TableCell>
-              ))}
-              {buttons.map(button => (
-                <TableCell key={button.id} align="center" className="cell">
-                  {button.label.toUpperCase()}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {sortedArray.map(project => (
-              <TableRow key={project.id}>
-                <TableCell component="th" scope="row">
-                  {project.id}
-                </TableCell>
-                <TableCell align="center">{project.client}</TableCell>
-                <TableCell align="center">{project.project}</TableCell>
-                <TableCell align="center">{project.domain}</TableCell>
-                <TableCell align="center">{project.rate}</TableCell>
-                <TableCell align="center">{project.startingDate}</TableCell>
-                <TableCell align="center">{project.endingDate}</TableCell>
-                <TableCell align="center">
-                  <Button onClick={() => modifyProject(project)}>
-                    <EditOutlinedIcon />
-                  </Button>
-                </TableCell>
-                <TableCell align="center">
-                  <Button onClick={() => removeProject(project.id)}>
-                    <DeleteOutlineOutlinedIcon />
-                  </Button>
-                </TableCell>
+    return (
+      <div>
+        <TableContainer component={Paper}>
+          <Table aria-label="simple table">
+            <TableHead className="tablehead">
+              <TableRow>
+                {fields.map(field => (
+                  <TableCell key={field.id} align="center">
+                    <TableSortLabel
+                      className="cell"
+                      align="center"
+                      direction={sortConfig.direction}
+                      active={sortConfig.key === field.id}
+                      onClick={() => sortParam(field.id)}
+                    >
+                      {field.label.toUpperCase()}
+                    </TableSortLabel>
+                  </TableCell>
+                ))}
+                {buttons.map(button => (
+                  <TableCell key={button.id} align="center" className="cell">
+                    {button.label.toUpperCase()}
+                  </TableCell>
+                ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Dialog open={open} handleDialog={handleDialog} fullWidth>
-        <ProjectForm
-          projectToModify={projectToModify}
-          modifyProject={modifyProject}
-          handleDialog={handleDialog}
-        />
-      </Dialog>
-    </div>
-  );
+            </TableHead>
+            <TableBody>
+              {sortedArray.map(project => (
+                <TableRow key={project.id}>
+                  <TableCell component="th" scope="row">
+                    {project.id}
+                  </TableCell>
+                  <TableCell align="center">{project.client}</TableCell>
+                  <TableCell align="center">{project.project}</TableCell>
+                  <TableCell align="center">{project.domain}</TableCell>
+                  <TableCell align="center">{project.rate}</TableCell>
+                  <TableCell align="center">{project.startingDate}</TableCell>
+                  <TableCell align="center">{project.endingDate}</TableCell>
+                  <TableCell align="center">
+                    <Button onClick={() => modifyProject(project)}>
+                      <EditOutlinedIcon />
+                    </Button>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button onClick={() => removeProject(project.id)}>
+                      <DeleteOutlineOutlinedIcon />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Dialog open={open} handleDialog={handleDialog} fullWidth>
+          <ProjectForm
+            projectToModify={projectToModify}
+            modifyProject={modifyProject}
+            handleDialog={handleDialog}
+          />
+        </Dialog>
+      </div>
+    );
+  }
 }

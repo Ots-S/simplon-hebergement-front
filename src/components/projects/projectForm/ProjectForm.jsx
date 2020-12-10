@@ -122,6 +122,7 @@ export default function ProjectForm({
                 required
                 value={startingDate}
                 onChange={e => setStartingDate(e.target.value)}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
             <Grid item xs={6}>
@@ -134,6 +135,7 @@ export default function ProjectForm({
                 required
                 value={endingDate}
                 onChange={e => setEndingDate(e.target.value)}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
           </Grid>
