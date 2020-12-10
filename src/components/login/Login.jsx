@@ -1,6 +1,5 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Grid, TextField, Button } from '@material-ui/core';
+import { Button, Container, Grid, TextField } from '@material-ui/core';
 import logo from '../../assets/simplonlogo.png';
 import './Login.css';
 
@@ -39,12 +38,13 @@ export default function Login() {
                 type="password"
                 required
                 variant="outlined"
+                autoComplete="on"
               />
             </Grid>
             <Grid item>
               <Link to="/home">
-                <Button variant="contained" color="primary">
-                  SE CONNECTER
+                <Button variant="contained" color="secondary" size="large">
+                  se connecter
                 </Button>
               </Link>
             </Grid>
