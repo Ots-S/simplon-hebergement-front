@@ -6,14 +6,6 @@ import './Home.css';
 import ProjectTable from '../../components/projects/ProjectTable';
 
 export default function Home() {
-  const [projects, setProjects] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [projectToModify, setProjectToModify] = useState();
-
-  function handleModal() {
-    setOpen(prev => !prev);
-  }
-
   return (
     <Container>
       <Grid
@@ -26,8 +18,8 @@ export default function Home() {
         <Box mb={5}>
           <Grid item>
             <Link to="/projectform">
-              <Button variant="contained" color="primary">
-                Ajouter un projet
+              <Button variant="contained" color="secondary">
+                ajouter un projet
               </Button>
             </Link>
           </Grid>
