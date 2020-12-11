@@ -25,7 +25,7 @@ export default function Navbar() {
   const classes = useStyles();
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" color="secondary">
       <Toolbar>
         <IconButton
           edge="start"
@@ -35,17 +35,15 @@ export default function Navbar() {
         >
           <MenuIcon />
         </IconButton>
-        <Typography className={classes.title}>
-          SIMPLON.PROD - Gestion des hébergeurs
-        </Typography>
-        <Link to="/projectform" className="link">
+        <Typography className={classes.title}>SIMPLON.PROD</Typography>
+        {/* <Link to="/projectform" className="link">
           <Button color="inherit">AJOUTER UN PROJET</Button>
         </Link>
         <Link to="/">
           <Button color="inherit" className="link">
             SE DECONNECTER
           </Button>
-        </Link>
+        </Link> */}
       </Toolbar>
     </AppBar>
   );

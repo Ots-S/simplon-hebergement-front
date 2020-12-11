@@ -5,3 +5,7 @@
 .submit-button {
   margin-top: 50px !important;
 }
+
+.title {
+  text-decoration: underline;
+}

@@ -14,6 +14,7 @@ export default function ProjectForm({
   projectToModify,
   handleDialog,
   modifyProject,
+  titleForm,
 }) {
   const [id, setId] = useState();
   const [client, setClient] = useState('');
@@ -64,7 +65,6 @@ export default function ProjectForm({
         alignItems="center"
         className="projectform-container"
       >
-        <Typography align="center">AJOUTER UN PROJET</Typography>
         <Grid
           container
           item
@@ -75,6 +75,25 @@ export default function ProjectForm({
           alignItems="center"
           spacing={2}
         >
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={handleDialog}
+            className="submit-button"
+            size="large"
+          >
+            retour
+          </Button>
+          <Grid item>
+            <Typography
+              variant="h5"
+              align="center"
+              color="secondary"
+              className="title"
+            >
+              {titleForm ? titleForm : 'AJOUTER UN PROJET'}
+            </Typography>
+          </Grid>
           <TextField
             type="text"
             label="Client"
@@ -139,14 +158,25 @@ export default function ProjectForm({
               />
             </Grid>
           </Grid>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={save}
-            className="submit-button"
-          >
-            VALIDER
-          </Button>
+          <Grid container justify="space-around" alignItems="center">
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={save}
+              className="submit-button"
+              size="large"
+              // disabled={
+              //   !client ||
+              //   !project ||
+              //   !domain ||
+              //   !rate ||
+              //   !startingDate ||
+              //   !endingDate
+              // }
+            >
+              valider
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
     </Container>

@@ -1,7 +1,15 @@
 import { Link } from 'react-router-dom';
-import { Button, Container, Grid, TextField } from '@material-ui/core';
+import {
+  Button,
+  Container,
+  Grid,
+  TextField,
+  InputAdornment,
+} from '@material-ui/core';
 import logo from '../../assets/simplonlogo.png';
 import './Login.css';
+import PersonIcon from '@material-ui/icons/Person';
+import LockIcon from '@material-ui/icons/Lock';
 
 export default function Login() {
   return (
@@ -20,7 +28,7 @@ export default function Login() {
             direction="column"
             justify="center"
             alignItems="center"
-            spacing={4}
+            spacing={6}
           >
             <Grid item>
               <TextField
@@ -29,6 +37,14 @@ export default function Login() {
                 type="text"
                 required
                 variant="outlined"
+                placeholder="identifiant"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PersonIcon color="secondary" />
+                    </InputAdornment>
+                  ),
+                }}
               />
             </Grid>
             <Grid item>
@@ -39,6 +55,14 @@ export default function Login() {
                 required
                 variant="outlined"
                 autoComplete="on"
+                placeholder="Mot de passe"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LockIcon color="secondary" />
+                    </InputAdornment>
+                  ),
+                }}
               />
             </Grid>
             <Grid item>

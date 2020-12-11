@@ -4,9 +4,15 @@
 
 .logo {
   width: 250px;
-  margin-bottom: 100px;
+  display: block;
+  margin: 100px auto 100px auto;
 }
 
 a {
   text-decoration: none;
+}
+
+.paper {
+  width: 70%;
+  height: 70%;
 }

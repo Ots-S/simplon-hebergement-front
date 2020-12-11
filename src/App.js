@@ -2,11 +2,14 @@ import Login from './components/login/Login';
 import Home from './components/home/Home';
 import ProjectForm from './components/projects/projectForm/ProjectForm';
 import './App.css';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom';
+import Navbar from './components/navbar/Navbar';
 
 function App() {
+  let location = useLocation();
   return (
-    <Router>
+    <div>
+      {!location === '/' && <Navbar />}
       <Switch>
         <Route exact path="/">
           <Login />
@@ -18,7 +21,7 @@ function App() {
           <ProjectForm />
         </Route>
       </Switch>
-    </Router>
+    </div>
   );
 }
 
