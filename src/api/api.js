@@ -16,6 +16,5 @@ export async function deleteProject(id) {
 }
 
 export async function updateProject(project) {
-  console.log('dans updateProject');
   return await axios.put(`${api}/project`, project);
 }
