@@ -9,7 +9,8 @@ function App() {
   let location = useLocation();
   return (
     <div>
-      {!location === '/' && <Navbar />}
+      {console.log(location.pathname)}
+      {location.pathname !== '/' && <Navbar />}
       <Switch>
         <Route exact path="/">
           <Login />

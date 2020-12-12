@@ -19,7 +19,11 @@ import { Link } from 'react-router-dom';
 import SearchIcon from '@material-ui/icons/Search';
 import AddIcon from '@material-ui/icons/Add';
 
-export default function FiltersButtonsContainer({ searchTerm, handleChange }) {
+export default function FiltersButtonsContainer({
+  searchTerm,
+  handleChange,
+  handleAddProjectDialog,
+}) {
   return (
     <Grid
       container
@@ -30,13 +34,17 @@ export default function FiltersButtonsContainer({ searchTerm, handleChange }) {
       className="buttons-container"
     >
       <Grid item>
-        <Link to="/projectform">
-          <Button variant="contained" color="secondary" size="large">
-            <AddIcon />
-          </Button>
-        </Link>
+        <Button
+          variant="contained"
+          color="secondary"
+          size="large"
+          startIcon={<AddIcon />}
+          onClick={handleAddProjectDialog}
+        >
+          <Hidden mdDown>Ajouter un projet</Hidden>
+        </Button>
       </Grid>
-      <Grid item xs={5} lg={6}>
+      <Grid item xs={6} lg={6}>
         <TextField
           variant="outlined"
           type="text"
@@ -55,7 +63,6 @@ export default function FiltersButtonsContainer({ searchTerm, handleChange }) {
           }}
         ></TextField>
       </Grid>
-
       <Hidden mdUp>
         <Grid item>
           <MobileFilterButton />

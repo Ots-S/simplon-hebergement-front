@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -17,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2),
   },
   title: {
-    marginRight: '100px',
+    flexGrow: 1,
   },
 }));
 
@@ -27,23 +28,12 @@ export default function Navbar() {
   return (
     <AppBar position="static" color="secondary">
       <Toolbar>
-        <IconButton
-          edge="start"
-          className={classes.menuButton}
-          color="inherit"
-          aria-label="menu"
-        >
-          <MenuIcon />
-        </IconButton>
         <Typography className={classes.title}>SIMPLON.PROD</Typography>
-        {/* <Link to="/projectform" className="link">
-          <Button color="inherit">AJOUTER UN PROJET</Button>
-        </Link>
         <Link to="/">
-          <Button color="inherit" className="link">
-            SE DECONNECTER
+          <Button color="inherit" className="exit-logo">
+            <ExitToAppIcon />
           </Button>
-        </Link> */}
+        </Link>
       </Toolbar>
     </AppBar>
   );

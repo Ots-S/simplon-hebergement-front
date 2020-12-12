@@ -16,12 +16,47 @@ import {
   Paper,
   TableSortLabel,
   Hidden,
+  Typography,
 } from '@material-ui/core';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import FiltersButtonsContainer from './FiltersButtonsContainer';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  root: {
+    color: 'yellow',
+
+    // if you want to have icons visible permanently
+    // '& $icon': {
+    //   opacity: 1,
+    //   color: primaryMain
+    // },
+
+    '&:hover': {
+      color: 'yellow',
+      opacity: 1,
+
+      '&& $icon': {
+        opacity: 1,
+        color: 'yellow',
+      },
+    },
+    '&$active': {
+      opacity: 1,
+      color: 'yellow',
+
+      // && instead of & is a workaround for https://github.com/cssinjs/jss/issues/1045
+      '&& $icon': {
+        opacity: 1,
+        color: 'yellow',
+      },
+    },
+  },
+});
 
 export default function ProjectTable() {
+  const classes = useStyles();
   const fields = [
     { id: 'id', label: 'id' },
     { id: 'client', label: 'client' },
@@ -40,9 +75,11 @@ export default function ProjectTable() {
   const [sortedArray, setSortedArray] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const [open, setOpen] = useState(false);
-  const [projectToModify, setProjectToModify] = useState();
+  const [projectToModify, setProjectToModify] = useState('');
+  const [projectToDelete, setProjectToDelete] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [confirmDialog, setConfirmDialog] = useState(false);
+  const [addProjectDialog, setAddProjectDialog] = useState(false);
 
   useEffect(() => {
     fetchProjects()
@@ -57,8 +94,15 @@ export default function ProjectTable() {
     setOpen(prev => !prev);
   }
 
-  function handleConfirmDialog() {
+  function handleConfirmDialog(project) {
+    if (project) {
+      setProjectToDelete(project);
+    }
     setConfirmDialog(prev => !prev);
+  }
+
+  function handleAddProjectDialog() {
+    setAddProjectDialog(prev => !prev);
   }
 
   function getProjects() {
@@ -67,11 +111,13 @@ export default function ProjectTable() {
       .then(() => setLoading(false));
   }
 
-  function removeProject(id) {
-    deleteProject(id).then(() => getProjects());
+  function removeProject(project) {
+    deleteProject(project.id).then(() => getProjects());
+    handleConfirmDialog();
   }
 
   function modifyProject(project) {
+    console.log('open :', open);
     updateProject(project).then(getProjects);
     setProjectToModify(project);
     handleDialog();
@@ -87,7 +133,6 @@ export default function ProjectTable() {
   }
 
   function handleChange(event) {
-    console.log(event.target.value);
     setSearchTerm(event.target.value);
   }
 
@@ -117,21 +162,22 @@ export default function ProjectTable() {
 
     return (
       <div className="table">
-        <Box mt={8} mb={2}>
+        <Box mt={4} mb={2}>
           <FiltersButtonsContainer
             handleChange={handleChange}
             searchTerm={searchTerm}
+            handleAddProjectDialog={handleAddProjectDialog}
           />
         </Box>
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
-            <Hidden mdDown>
+            <Hidden>
               <TableHead className="tablehead">
                 <TableRow>
                   {fields.map(field => (
                     <TableCell key={field.id} align="center">
                       <TableSortLabel
-                        className="cell"
+                        className={classes.root}
                         align="center"
                         direction={sortConfig.direction}
                         active={sortConfig.key === field.id}
@@ -183,7 +229,7 @@ export default function ProjectTable() {
                   </TableCell>
                   <TableCell align="center">
                     <Button
-                      onClick={() => handleConfirmDialog(project.id)}
+                      onClick={() => handleConfirmDialog(project)}
                       className="icon-button"
                     >
                       <DeleteOutlineOutlinedIcon />
@@ -204,7 +250,7 @@ export default function ProjectTable() {
             <CircularProgress color="secondary" size={50} />
           </Grid>
         )}
-        <Dialog open={open} handleDialog={handleDialog} fullWidth>
+        <Dialog open={open} fullWidth>
           <ProjectForm
             projectToModify={projectToModify}
             modifyProject={modifyProject}
@@ -217,7 +263,12 @@ export default function ProjectTable() {
           handleDialog={handleConfirmDialog}
           fullWidth
         >
-          Êtes-vous sûr de vouloir supprimer ce projet ?
+          <Typography align="center">
+            Êtes-vous sûr de vouloir supprimer ce projet ?
+          </Typography>
+          <Typography align="center">
+            {projectToDelete.client} - {projectToDelete.project}
+          </Typography>
           <Box my={2}>
             <Grid container justify="space-around">
               <Button
@@ -228,7 +279,7 @@ export default function ProjectTable() {
                 non
               </Button>
               <Button
-                onClick={removeProject}
+                onClick={() => removeProject(projectToDelete)}
                 variant="contained"
                 color="secondary"
               >
@@ -236,6 +287,15 @@ export default function ProjectTable() {
               </Button>
             </Grid>
           </Box>
+        </Dialog>
+        <Dialog
+          open={addProjectDialog}
+          handleDialog={handleAddProjectDialog}
+          fullWidth
+          className="add-project-dialog"
+          maxWidth="md"
+        >
+          <ProjectForm handleDialog={handleAddProjectDialog} />
         </Dialog>
       </div>
     );
