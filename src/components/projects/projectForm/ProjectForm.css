@@ -1,7 +1,11 @@
 .projectform-container {
-  height: 100vh;
+  padding: 20px 0;
 }
 
 .submit-button {
-  margin-top: 50px !important;
+  margin-top: 20px !important;
+}
+
+.title {
+  text-decoration: underline;
 }

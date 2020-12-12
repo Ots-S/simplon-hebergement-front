@@ -1,3 +1,4 @@
+import './ProjectForm.css';
 import { useState, useEffect } from 'react';
 import {
   Container,
@@ -6,14 +7,15 @@ import {
   Typography,
   Button,
 } from '@material-ui/core';
-import './ProjectForm.css';
-import { useHistory } from 'react-router-dom';
 import { saveProject } from '../../../api/api';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 export default function ProjectForm({
   projectToModify,
   handleDialog,
   modifyProject,
+  titleForm,
+  getProjects,
 }) {
   const [id, setId] = useState();
   const [client, setClient] = useState('');
@@ -22,7 +24,6 @@ export default function ProjectForm({
   const [rate, setRate] = useState(0);
   const [startingDate, setStartingDate] = useState('');
   const [endingDate, setEndingDate] = useState('');
-  const history = useHistory();
 
   useEffect(() => {
     if (projectToModify) {
@@ -51,8 +52,10 @@ export default function ProjectForm({
 
   function save() {
     const project = createProject();
-    projectToModify ? modifyProject(project) : saveProject(project);
-    history.push('/home');
+    projectToModify
+      ? modifyProject(project)
+      : saveProject(project).then(getProjects);
+    handleDialog();
   }
 
   return (
@@ -64,7 +67,6 @@ export default function ProjectForm({
         alignItems="center"
         className="projectform-container"
       >
-        <Typography align="center">AJOUTER UN PROJET</Typography>
         <Grid
           container
           item
@@ -75,6 +77,32 @@ export default function ProjectForm({
           alignItems="center"
           spacing={2}
         >
+          <Grid
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-start"
+          >
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={handleDialog}
+              className="submit-button"
+              size="normal"
+            >
+              <ArrowBackIcon />
+            </Button>
+          </Grid>
+          <Grid item>
+            <Typography
+              variant="h6"
+              align="center"
+              color="secondary"
+              className="title"
+            >
+              {titleForm ? titleForm : 'AJOUTER UN PROJET'}
+            </Typography>
+          </Grid>
           <TextField
             type="text"
             label="Client"
@@ -83,6 +111,7 @@ export default function ProjectForm({
             margin="normal"
             value={client}
             onChange={e => setClient(e.target.value)}
+            color="secondary"
           />
           <TextField
             type="text"
@@ -92,6 +121,7 @@ export default function ProjectForm({
             margin="normal"
             value={project}
             onChange={e => setProject(e.target.value)}
+            color="secondary"
           />
           <TextField
             type="text"
@@ -101,6 +131,7 @@ export default function ProjectForm({
             required
             value={domain}
             onChange={e => setDomain(e.target.value)}
+            color="secondary"
           />
           <TextField
             type="text"
@@ -110,9 +141,10 @@ export default function ProjectForm({
             required
             value={rate}
             onChange={e => setRate(e.target.value)}
+            color="secondary"
           />
           <Grid container direction="row" justify="space-around" spacing={1}>
-            <Grid item xs={6}>
+            <Grid item xs={12} lg={6}>
               <TextField
                 type="date"
                 label="Date début d'hébergement"
@@ -123,9 +155,10 @@ export default function ProjectForm({
                 value={startingDate}
                 onChange={e => setStartingDate(e.target.value)}
                 InputLabelProps={{ shrink: true }}
+                color="secondary"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} lg={6}>
               <TextField
                 type="date"
                 label="Date fin d'hébergement"
@@ -136,17 +169,29 @@ export default function ProjectForm({
                 value={endingDate}
                 onChange={e => setEndingDate(e.target.value)}
                 InputLabelProps={{ shrink: true }}
+                color="secondary"
               />
             </Grid>
           </Grid>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={save}
-            className="submit-button"
-          >
-            VALIDER
-          </Button>
+          <Grid container justify="space-around" alignItems="center">
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={save}
+              className="submit-button"
+              size="large"
+              disabled={
+                !client ||
+                !project ||
+                !domain ||
+                !rate ||
+                !startingDate ||
+                !endingDate
+              }
+            >
+              valider
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
     </Container>
