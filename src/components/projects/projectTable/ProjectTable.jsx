@@ -16,7 +16,7 @@ import {
 import './ProjectTable.css';
 
 import FiltersButtonsContainer from '../FiltersButtonsContainer';
-import DeleteDialog from '../DeleteDialog';
+import DeleteDialog from '../deleteDialog/DeleteDialog';
 import ProjectTemplate from '../projectTemplate/ProjectTemplate';
 
 export default function ProjectTable() {
@@ -44,6 +44,10 @@ export default function ProjectTable() {
   const [projectToModify, setProjectToModify] = useState({});
   const [projectToDelete, setProjectToDelete] = useState({});
 
+  function formatDate(date) {
+    return date.split('-').reverse().join('-');
+  }
+
   useEffect(() => {
     fetchProjects()
       .then(items => {
@@ -59,8 +63,12 @@ export default function ProjectTable() {
         element.client.toLowerCase().includes(searchTerm.toLowerCase()) ||
         element.project.toLowerCase().includes(searchTerm.toLowerCase()) ||
         element.domain.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        element.startingDate.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        element.endingDate.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        formatDate(element.startingDate)
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        formatDate(element.endingDate)
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
         element.rate.toString().includes(searchTerm)
     );
     setSortedProjects(results);
@@ -94,7 +102,6 @@ export default function ProjectTable() {
     }
 
     function getProjects() {
-      console.log('getproject');
       fetchProjects()
         .then(projects => {
           setProjects(projects);
@@ -171,6 +178,7 @@ export default function ProjectTable() {
                   key={project.id}
                   openFormModal={handleUpdateDialog}
                   handleConfirmDialog={handleConfirmationDialog}
+                  formatDate={formatDate}
                 />
               ))}
             </TableBody>

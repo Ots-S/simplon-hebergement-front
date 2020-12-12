@@ -9,6 +9,7 @@ export default function ProjectTemplate({
   project,
   openFormModal,
   handleConfirmDialog,
+  formatDate,
 }) {
   const [dateAlert, setDateAlert] = useState(false);
 
@@ -25,8 +26,6 @@ export default function ProjectTemplate({
     if (month === 0) {
       month = 12;
       year = year - 1;
-    } else {
-      month = month;
     }
     return `${month}-${endingDate.getDate()}-${year}`;
   }
@@ -40,10 +39,6 @@ export default function ProjectTemplate({
     return `${todayDate.getDate()}-${
       todayDate.getMonth() + 1
     }-${todayDate.getFullYear()}`;
-  }
-
-  function formatDate(date) {
-    return date.split('-').reverse().join('-');
   }
 
   return (
@@ -76,7 +71,7 @@ export default function ProjectTemplate({
         <Button onClick={() => openFormModal(project)} className="icon-button">
           <EditOutlinedIcon />
         </Button>
-      </TableCell>{' '}
+      </TableCell>
       <TableCell component="th" align="center">
         <Button
           onClick={() => handleConfirmDialog(project)}

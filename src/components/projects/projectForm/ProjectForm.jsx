@@ -82,21 +82,6 @@ export default function ProjectForm({
           alignItems="center"
           spacing={2}
         >
-          <Grid
-            container
-            direction="row"
-            justify="flex-start"
-            alignItems="flex-start"
-          >
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={handleDialog}
-              className="submit-button"
-            >
-              <ArrowBackIcon />
-            </Button>
-          </Grid>
           <Grid item>
             <Typography
               variant="h6"
@@ -188,6 +173,15 @@ export default function ProjectForm({
             </Grid>
           </Grid>
           <Grid container justify="space-around" alignItems="center">
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={handleDialog}
+              className="submit-button"
+              size="large"
+            >
+              annuler
+            </Button>
             <Button
               variant="contained"
               color="secondary"

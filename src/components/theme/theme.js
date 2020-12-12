@@ -25,11 +25,6 @@ theme.overrides = {
         },
       },
     },
-    MuiPickersClock: {
-      clock: {
-        backgroundColor: 'red',
-      },
-    },
   },
 };
 
