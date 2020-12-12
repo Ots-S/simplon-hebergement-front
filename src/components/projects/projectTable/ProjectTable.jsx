@@ -1,4 +1,3 @@
-import './ProjectTable.css';
 import { useState, useEffect } from 'react';
 import { fetchProjects, deleteProject, updateProject } from '../../../api/api';
 import { Grid, Dialog, CircularProgress } from '@material-ui/core';
@@ -14,6 +13,7 @@ import {
   Paper,
   TableSortLabel,
 } from '@material-ui/core';
+import './ProjectTable.css';
 
 import FiltersButtonsContainer from '../FiltersButtonsContainer';
 import DeleteDialog from '../DeleteDialog';
@@ -94,10 +94,11 @@ export default function ProjectTable() {
     }
 
     function getProjects() {
+      console.log('getproject');
       fetchProjects()
-        .then(items => {
-          setProjects(items);
-          setSortedProjects(items);
+        .then(projects => {
+          setProjects(projects);
+          setSortedProjects(projects);
         })
         .then(() => setLoading(false));
     }
@@ -155,8 +156,8 @@ export default function ProjectTable() {
                   <TableCell
                     key={button.id}
                     align="center"
-                    className="cell"
                     width="5%"
+                    className="cell"
                   >
                     {button.label.toUpperCase()}
                   </TableCell>
@@ -185,30 +186,31 @@ export default function ProjectTable() {
             <CircularProgress color="secondary" size={50} />
           </Grid>
         )}
-        <Dialog open={openUpdateDialog} fullWidth>
+        <Dialog open={openUpdateDialog} fullWidth maxWidth="md">
           <ProjectForm
             projectToModify={projectToModify}
             modifyProject={modifyProject}
             handleDialog={handleUpdateDialog}
             titleForm={'MODIFIER LE PROJET'}
-          />
-        </Dialog>
-        <Dialog open={openConfirmationDialog} fullWidth maxWidth="md">
-          <DeleteDialog
-            project={projectToDelete}
-            handleDialog={handleConfirmationDialog}
-            removeProject={removeProject}
+            getProjects={getProjects}
           />
         </Dialog>
         <Dialog
           open={openAddDialog}
           fullWidth
-          className="add-project-dialog"
           maxWidth="md"
+          className="add-project-dialog"
         >
           <ProjectForm
             handleDialog={handleAddDialog}
             getProjects={getProjects}
+          />
+        </Dialog>
+        <Dialog open={openConfirmationDialog} fullWidth maxWidth="sm">
+          <DeleteDialog
+            project={projectToDelete}
+            handleDialog={handleConfirmationDialog}
+            removeProject={removeProject}
           />
         </Dialog>
       </div>

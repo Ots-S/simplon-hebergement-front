@@ -32,7 +32,6 @@ export default function Login() {
           lg={3}
           direction="column"
           justify="center"
-          alignItem="center"
           spacing={4}
         >
           <Grid item>
@@ -74,7 +73,6 @@ export default function Login() {
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={() => setShowPassword(prev => !prev)}
-                      onMouseDown={() => console.log('oui?')}
                     >
                       {showPassword ? <Visibility /> : <VisibilityOff />}
                     </IconButton>

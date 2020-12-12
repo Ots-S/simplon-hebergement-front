@@ -2,10 +2,6 @@
   background-color: #dc004e;
 }
 
-.cell {
-  color: white !important;
-}
-
 .loading-container {
   margin: 100px 0;
 }
@@ -14,7 +10,8 @@
   width: 100% !important;
 }
 
-.table-cell {
+.cell {
+  color: white !important;
 }
 
 .icon-button:hover {

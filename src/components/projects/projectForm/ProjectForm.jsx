@@ -6,9 +6,14 @@ import {
   TextField,
   Typography,
   Button,
+  InputAdornment,
 } from '@material-ui/core';
 import { saveProject } from '../../../api/api';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import frLocale from 'date-fns/locale/fr';
+import EventIcon from '@material-ui/icons/Event';
 
 export default function ProjectForm({
   projectToModify,
@@ -17,13 +22,13 @@ export default function ProjectForm({
   titleForm,
   getProjects,
 }) {
-  const [id, setId] = useState();
+  const [id, setId] = useState('');
   const [client, setClient] = useState('');
   const [project, setProject] = useState('');
   const [domain, setDomain] = useState('');
   const [rate, setRate] = useState(0);
-  const [startingDate, setStartingDate] = useState('');
-  const [endingDate, setEndingDate] = useState('');
+  const [startingDate, setStartingDate] = useState(null);
+  const [endingDate, setEndingDate] = useState(null);
 
   useEffect(() => {
     if (projectToModify) {
@@ -38,7 +43,7 @@ export default function ProjectForm({
   }, []);
 
   function createProject() {
-    const projectObj = {
+    const newProject = {
       id: id,
       client: client,
       project: project,
@@ -47,7 +52,7 @@ export default function ProjectForm({
       startingDate: startingDate,
       endingDate: endingDate,
     };
-    return projectObj;
+    return newProject;
   }
 
   function save() {
@@ -88,7 +93,6 @@ export default function ProjectForm({
               color="secondary"
               onClick={handleDialog}
               className="submit-button"
-              size="normal"
             >
               <ArrowBackIcon />
             </Button>
@@ -134,7 +138,7 @@ export default function ProjectForm({
             color="secondary"
           />
           <TextField
-            type="text"
+            type="number"
             label="Tarif"
             fullWidth
             margin="normal"
@@ -144,33 +148,43 @@ export default function ProjectForm({
             color="secondary"
           />
           <Grid container direction="row" justify="space-around" spacing={1}>
-            <Grid item xs={12} lg={6}>
-              <TextField
-                type="date"
-                label="Date début d'hébergement"
-                fullWidth
-                margin="normal"
-                variant="filled"
-                required
-                value={startingDate}
-                onChange={e => setStartingDate(e.target.value)}
-                InputLabelProps={{ shrink: true }}
-                color="secondary"
-              />
+            <Grid item xs={6} lg={6}>
+              <MuiPickersUtilsProvider utils={DateFnsUtils} locale={frLocale}>
+                <DatePicker
+                  fullWidth
+                  value={startingDate}
+                  onChange={date => setStartingDate(date)}
+                  format="dd/MM/yyyy"
+                  label="jj/mm/aaaa"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <EventIcon color="secondary" />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </MuiPickersUtilsProvider>
             </Grid>
-            <Grid item xs={12} lg={6}>
-              <TextField
-                type="date"
-                label="Date fin d'hébergement"
-                fullWidth
-                margin="normal"
-                variant="filled"
-                required
-                value={endingDate}
-                onChange={e => setEndingDate(e.target.value)}
-                InputLabelProps={{ shrink: true }}
-                color="secondary"
-              />
+            <Grid container item xs={6} lg={6} justify="space-between">
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <DatePicker
+                  color="secondary"
+                  fullWidth
+                  value={endingDate}
+                  onChange={date => setEndingDate(date)}
+                  format="dd/MM/yyyy"
+                  label="jj/mm/aaaa"
+                  minDate={startingDate}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <EventIcon color="secondary" />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </MuiPickersUtilsProvider>
             </Grid>
           </Grid>
           <Grid container justify="space-around" alignItems="center">
