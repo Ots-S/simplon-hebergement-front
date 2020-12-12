@@ -1,3 +1,4 @@
+import './ProjectForm.css';
 import { useState, useEffect } from 'react';
 import {
   Container,
@@ -6,8 +7,6 @@ import {
   Typography,
   Button,
 } from '@material-ui/core';
-import './ProjectForm.css';
-import { useHistory } from 'react-router-dom';
 import { saveProject } from '../../../api/api';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
@@ -16,6 +15,7 @@ export default function ProjectForm({
   handleDialog,
   modifyProject,
   titleForm,
+  getProjects,
 }) {
   const [id, setId] = useState();
   const [client, setClient] = useState('');
@@ -24,7 +24,6 @@ export default function ProjectForm({
   const [rate, setRate] = useState(0);
   const [startingDate, setStartingDate] = useState('');
   const [endingDate, setEndingDate] = useState('');
-  const history = useHistory();
 
   useEffect(() => {
     if (projectToModify) {
@@ -53,7 +52,9 @@ export default function ProjectForm({
 
   function save() {
     const project = createProject();
-    projectToModify ? modifyProject(project) : saveProject(project);
+    projectToModify
+      ? modifyProject(project)
+      : saveProject(project).then(getProjects);
     handleDialog();
   }
 
@@ -94,7 +95,7 @@ export default function ProjectForm({
           </Grid>
           <Grid item>
             <Typography
-              variant="h5"
+              variant="h6"
               align="center"
               color="secondary"
               className="title"
@@ -179,14 +180,14 @@ export default function ProjectForm({
               onClick={save}
               className="submit-button"
               size="large"
-              // disabled={
-              //   !client ||
-              //   !project ||
-              //   !domain ||
-              //   !rate ||
-              //   !startingDate ||
-              //   !endingDate
-              // }
+              disabled={
+                !client ||
+                !project ||
+                !domain ||
+                !rate ||
+                !startingDate ||
+                !endingDate
+              }
             >
               valider
             </Button>

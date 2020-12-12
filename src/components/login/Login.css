@@ -3,11 +3,10 @@
 }
 
 .logo {
-  width: 250px;
-  display: block;
-  margin: 0 auto 100px auto;
+  width: 300px;
+  margin-bottom: 50px;
 }
 
-a {
+.link {
   text-decoration: none;
 }

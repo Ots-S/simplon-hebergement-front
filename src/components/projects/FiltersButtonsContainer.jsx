@@ -1,21 +1,5 @@
 import { Grid } from '@material-ui/core';
-import MobileFilterButton from './mobileFilterButton/MobileFilterButton';
-import {
-  Box,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  TableSortLabel,
-  Hidden,
-  TextField,
-  InputAdornment,
-} from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Button, Hidden, TextField, InputAdornment } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import AddIcon from '@material-ui/icons/Add';
 
@@ -63,11 +47,6 @@ export default function FiltersButtonsContainer({
           }}
         ></TextField>
       </Grid>
-      <Hidden mdUp>
-        <Grid item>
-          <MobileFilterButton />
-        </Grid>
-      </Hidden>
     </Grid>
   );
 }
