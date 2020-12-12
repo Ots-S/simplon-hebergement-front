@@ -1,7 +1,15 @@
 import { createMuiTheme } from '@material-ui/core';
-import { white } from '@material-ui/core/colors';
 
-const theme = createMuiTheme({});
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#dc004e',
+    },
+    secondary: {
+      main: '#dc004e',
+    },
+  },
+});
 
 theme.overrides = {
   MuiTableSortLabel: {
@@ -11,12 +19,15 @@ theme.overrides = {
       },
       '&$active': {
         color: '#ffffff',
-
-        // && instead of & is a workaround for https://github.com/cssinjs/jss/issues/1045
         '&& $icon': {
           opacity: 1,
           color: '#ffffff',
         },
+      },
+    },
+    MuiPickersClock: {
+      clock: {
+        backgroundColor: 'red',
       },
     },
   },

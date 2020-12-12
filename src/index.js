@@ -6,13 +6,17 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './components/theme/theme';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <Router>
-        <App />
-      </Router>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <Router>
+          <App />
+        </Router>
+      </MuiPickersUtilsProvider>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')

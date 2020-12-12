@@ -5,7 +5,9 @@ export default function Home() {
   return (
     <Container>
       <Grid container direction="column" justify="flex-start">
-        <ProjectTable />
+        <Grid item xs={12}>
+          <ProjectTable />
+        </Grid>
       </Grid>
     </Container>
   );
