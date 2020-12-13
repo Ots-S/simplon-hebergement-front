@@ -9,7 +9,6 @@ export default function ProjectTemplate({
   project,
   openFormModal,
   handleConfirmDialog,
-  formatDate,
 }) {
   const [dateAlert, setDateAlert] = useState(false);
 
@@ -36,9 +35,13 @@ export default function ProjectTemplate({
 
   function getTodayDate() {
     const todayDate = new Date();
-    return `${todayDate.getDate()}-${
+    return `${
       todayDate.getMonth() + 1
-    }-${todayDate.getFullYear()}`;
+    }-${todayDate.getDate()}-${todayDate.getFullYear()}`;
+  }
+
+  function formatDate(date) {
+    return date.split('-').reverse().join('-');
   }
 
   return (
