@@ -25,7 +25,7 @@ export default function FiltersButtonsContainer({
           startIcon={<AddIcon />}
           onClick={handleAddProjectDialog}
         >
-          <Hidden mdDown>Ajouter un projet</Hidden>
+          <Hidden smDown>Ajouter un projet</Hidden>
         </Button>
       </Grid>
       <Grid item xs={6} lg={6}>
