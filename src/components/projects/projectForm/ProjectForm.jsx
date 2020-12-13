@@ -9,7 +9,6 @@ import {
   InputAdornment,
 } from '@material-ui/core';
 import { saveProject } from '../../../api/api';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import frLocale from 'date-fns/locale/fr';
