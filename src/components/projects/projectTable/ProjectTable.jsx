@@ -178,7 +178,6 @@ export default function ProjectTable() {
                   key={project.id}
                   openFormModal={handleUpdateDialog}
                   handleConfirmDialog={handleConfirmationDialog}
-                  formatDate={formatDate}
                 />
               ))}
             </TableBody>
